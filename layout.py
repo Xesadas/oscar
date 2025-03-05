@@ -1,4 +1,4 @@
-from dash import dcc, html
+from dash import dcc, html, dash_table
 import pandas as pd
 import re
 
@@ -34,5 +34,15 @@ layout = html.Div([
     html.H1("Dashboard de Transações"),
     html.Div(criar_inputs()),
     html.Button("Salvar", id="salvar-btn", n_clicks=0),
+    dcc.Store(id="stored-data", data={}),  # Armazena os dados inseridos
+    dash_table.DataTable(
+        id="tabela-dados",
+        columns=[{"name": col, "id": sanitize_column_name(col)} for col in df.columns],
+        data=[],
+        style_table={'overflowX': 'auto'},
+        style_cell={'textAlign': 'left'}
+    ),
     html.Div(id="output-mensagem")
 ])
+
+
