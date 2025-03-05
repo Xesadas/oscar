@@ -1,0 +1,6 @@
+1 - fazer com que a tabela abaixo no código retorne todos os valores de acordo com as datas estabelecidas
+2 - implementar banco de dados, fazer com que retorne ao mesmo tempo um arquivo.xlsx como um png dos dados estabelecidos
+3-  colocar opções e não input na parte de parcelas, mais especificamente  "QTD  PARCELAS"
+4-  adicionar banco de dados sql talvez?
+5-  consertar erros presentes no server 
+6-  (futuro) adicionar modelos de previsão
