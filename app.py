@@ -48,3 +48,4 @@ def salvar_dados(n_clicks, *valores):
 # Rodar o servidor
 if __name__ == "__main__":
     app.run_server(debug=True)
+#teste!
