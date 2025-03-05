@@ -2,6 +2,21 @@ import dash
 from dash import dcc, html, Input, Output, State
 import pandas as pd
 import re
+#Formula:
+#   Comissão x Valor liberado
+
+#Comissões:
+# 1 a 5x : 1,5%
+# 6 a 12x : 4%
+# 13 a 18x : 4,5%
+
+
+
+
+
+
+
+
 
 # Carregar dados
 file_path = "p.xlsx"
