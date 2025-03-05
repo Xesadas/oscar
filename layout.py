@@ -32,17 +32,15 @@ def criar_inputs():
 # Layout do dashboard
 layout = html.Div([
     html.H1("Dashboard de Transações"),
-    html.Div(criar_inputs()),
-    html.Button("Salvar", id="salvar-btn", n_clicks=0),
-    dcc.Store(id="stored-data", data={}),  # Armazena os dados inseridos
+    html.Div(criar_inputs()),  # Gera inputs para cada coluna
+    html.Button("Salvar", id="salvar-btn", n_clicks=0),  # Botão de salvar
+    dcc.Store(id="stored-data", data=[]),  # Armazena os dados inseridos (inicializado como uma lista vazia)
     dash_table.DataTable(
         id="tabela-dados",
         columns=[{"name": col, "id": sanitize_column_name(col)} for col in df.columns],
-        data=[],
+        data=[],  # Inicialmente sem dados
         style_table={'overflowX': 'auto'},
         style_cell={'textAlign': 'left'}
     ),
-    html.Div(id="output-mensagem")
+    html.Div(id="output-mensagem")  # Área para exibir a mensagem de confirmação
 ])
-
-

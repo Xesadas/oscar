@@ -1,4 +1,3 @@
-# colocar um bancos e imagem
 import dash
 from dash import Input, Output, State
 import pandas as pd
@@ -23,18 +22,24 @@ app.layout = layout
 )
 def salvar_dados(n_clicks, *valores, stored_data):
     if n_clicks > 0:
+        # Se stored_data for None (primeira vez que a função é chamada), inicialize como uma lista vazia
+        if stored_data is None:
+            stored_data = []
+
+        # Organizar os dados
         dados = {col: val for col, val in zip([col for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]], valores)}
-        
+
         # Calcular os valores das colunas automáticas
         dados["MÁQUINA"] = "PAGSEGURO"  # Substitua com a lógica de cálculo real
         dados["COMISSÃO ALESSANDRO"] = "Valor calculado"  # Substitua com a lógica de cálculo real
         dados["VALOR DUALCRED"] = "Valor calculado"  # Substitua com a lógica de cálculo real
         dados["%TRANS."] = "Valor calculado"  # Substitua com a lógica de cálculo real
         dados["%LIBERAD."] = "Valor calculado"  # Substitua com a lógica de cálculo real
-        
+
         # Atualizar os dados armazenados
         stored_data.append(dados)
         
+        # Retornar a mensagem de confirmação, os dados armazenados atualizados e os dados da tabela
         return f"Dados inseridos: {dados}", stored_data, stored_data
     return "", stored_data, stored_data
 
