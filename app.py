@@ -1,66 +1,36 @@
 import dash
-from dash import dcc, html, Input, Output, State
+from dash import Input, Output, State
 import pandas as pd
-import re
-#Formula:
-#   Comissão x Valor liberado
-
-#Comissões:
-# 1 a 5x : 1,5%
-# 6 a 12x : 4%
-# 13 a 18x : 4,5%
-
-
-
-
-
-
-
-
+from layout import layout, sanitize_column_name
 
 # Carregar dados
 file_path = "p.xlsx"
 df = pd.read_excel(file_path, engine="openpyxl")
 
-# Função para normalizar os IDs removendo caracteres inválidos
-def sanitize_column_name(col_name):
-    return re.sub(r'[^a-zA-Z0-9_-]', '_', col_name)  # Substitui caracteres inválidos por _
-
 # Inicializar o aplicativo Dash
 app = dash.Dash(__name__)
-
-# Criar o layout com inputs para cada coluna
-def criar_inputs():
-    inputs = []
-    for col in df.columns:
-        safe_col = sanitize_column_name(col)
-        inputs.append(html.Div([
-            html.Label(col),
-            dcc.Input(id=f'input-{safe_col}', type='text', value='')
-        ], style={'marginBottom': '10px'}))
-    return inputs
-
-# Layout do dashboard
-app.layout = html.Div([
-    html.H1("Dashboard de Transações"),
-    html.Div(criar_inputs()),
-    html.Button("Salvar", id="salvar-btn", n_clicks=0),
-    html.Div(id="output-mensagem")
-])
+app.layout = layout
 
 # Callback para capturar inputs e exibir mensagem de confirmação
 @app.callback(
     Output("output-mensagem", "children"),
     Input("salvar-btn", "n_clicks"),
-    [State(f"input-{sanitize_column_name(col)}", "value") for col in df.columns]
+    [State(f"input-{sanitize_column_name(col)}", "value") for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]]
 )
 def salvar_dados(n_clicks, *valores):
     if n_clicks > 0:
-        dados = {col: val for col, val in zip(df.columns, valores)}
+        dados = {col: val for col, val in zip([col for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]], valores)}
+        
+        # Calcular os valores das colunas automáticas
+        dados["MÁQUINA"] = "PAGSEGURO"  # Substitua com a lógica de cálculo real
+        dados["COMISSÃO ALESSANDRO"] = "Valor calculado"  # Substitua com a lógica de cálculo real
+        dados["VALOR DUALCRED"] = "Valor calculado"  # Substitua com a lógica de cálculo real
+        dados["%TRANS."] = "Valor calculado"  # Substitua com a lógica de cálculo real
+        dados["%LIBERAD."] = "Valor calculado"  # Substitua com a lógica de cálculo real
+        
         return f"Dados inseridos: {dados}"
     return ""
 
 # Rodar o servidor
 if __name__ == "__main__":
     app.run_server(debug=True)
-#teste!
