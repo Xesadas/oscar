@@ -6,6 +6,7 @@
 6-  (futuro) adicionar modelos de previsão
 7-  fazer com que as colunas interajam entre si
 8-  erro no sanitize_column_name
+9-  erro no callback pasta de teste
 
 
 
