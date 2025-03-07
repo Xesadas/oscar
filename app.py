@@ -73,7 +73,7 @@ def filtrar_dados(start_date, end_date):
     [State(f"input-{sanitize_column_name(col)}", "date" if col.lower() == "data" else "value") for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]],
     State("stored-data", "data")
 )
-def salvar_dados(n_clicks, *valores, stored_data):
+def salvar_dados(n_clicks, stored_data, *valores):
     global df
     if n_clicks > 0:
         if stored_data is None:
