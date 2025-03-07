@@ -1,61 +1,19 @@
 1 - fazer com que a tabela abaixo no código retorne todos os valores de acordo com as datas estabelecidas
 2 - implementar banco de dados, fazer com que retorne ao mesmo tempo um arquivo.xlsx como um png dos dados estabelecidos
 3-  colocar opções e não input na parte de parcelas, mais especificamente  "QTD  PARCELAS"
-4-  adicionar banco de dados sql talvez?
+4-  adicionar banco de dados sql talvez? 'nop'
 5-  consertar erros presentes no server 
 6-  (futuro) adicionar modelos de previsão
 7-  fazer com que as colunas interajam entre si
 8-  erro no sanitize_column_name
-9-  erro no callback pasta de teste
+9-  nao queo coluna 5,8,10 em diante
+10- erro na formatação dos  dados inseridos por input
+11- dados corrompidos
+12- Ok, podemos trabalhar com dados corrompidos SE a data estiver certa, então  "corrijir data adiante"
+13- Ponha seus conhecimentos a prova e sempre estude mais!
 
 
 
-
-
-
-
-
-
-
-import dash
-from dash import Input, Output, State
-import pandas as pd
-from layout import layout, sanitize_column_name
-
-# Carregar dados
-file_path = "p.xlsx"
-df = pd.read_excel(file_path, engine="openpyxl")
-
-# Inicializar o aplicativo Dash
-app = dash.Dash(__name__)
-app.layout = layout
-
-# Callback para capturar inputs e exibir mensagem de confirmação
-@app.callback(
-    Output("output-mensagem", "children"),
-    Output("stored-data", "data"),
-    Output("tabela-dados", "data"),
-    Input("salvar-btn", "n_clicks"),
-    [State(f"input-{sanitize_column_name(col)}", "value") for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]],
-    State("stored-data", "data")
-)
-def salvar_dados(n_clicks, *valores, stored_data):
-    if n_clicks > 0:
-        dados = {col: val for col, val in zip([col for col in df.columns if col not in ["MÁQUINA", "COMISSÃO ALESSANDRO", "VALOR DUALCRED", "%TRANS.", "%LIBERAD."]], valores)}
-        
-        # Calcular os valores das colunas automáticas
-        dados["MÁQUINA"] = "PAGSEGURO"  # Substitua com a lógica de cálculo real
-        dados["COMISSÃO ALESSANDRO"] = "Valor calculado"  # Substitua com a lógica de cálculo real
-        dados["VALOR DUALCRED"] = "Valor calculado"  # Substitua com a lógica de cálculo real
-        dados["%TRANS."] = "Valor calculado"  # Substitua com a lógica de cálculo real
-        dados["%LIBERAD."] = "Valor calculado"  # Substitua com a lógica de cálculo real
-        
-        # Atualizar os dados armazenados
-        stored_data.append(dados)
-        
-        return f"Dados inseridos: {dados}", stored_data, stored_data
-    return "", stored_data, stored_data
-
-# Rodar o servidor
-if __name__ == "__main__":
-    app.run_server(debug=True)
+The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer 
+exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries 
+before the concat operation.
